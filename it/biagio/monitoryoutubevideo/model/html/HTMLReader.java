@@ -1,6 +1,6 @@
 /*
  * Monitor YouTube Video is a program that allows the user to monitor the
- * statistisc of a YouTube video (such as title, user, subscribers number,
+ * statistiscs of a YouTube video (such as title, user, subscribers number,
  * views number, like number, etc...) periodically at regular intervals.
  * 
  * Copyright (C) 2017 Giulio Biagini - giulio.biagini90@gmail.com
