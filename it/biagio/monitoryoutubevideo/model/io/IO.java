@@ -52,7 +52,7 @@ public class IO
 	/**
 	 * The string used to divide each datum
 	 */
-	private static final String DATA_SEPARATOR = " -> ";
+	private static final String DATA_SEPARATOR = ",";
 	
 	/**
 	 * The string used to divide each VideoInfo
@@ -62,13 +62,13 @@ public class IO
 	
 	
 	/**
-	 * Write the videos info into a file
+	 * Write the videos info into a csv (comma separated value) file
 	 * 
 	 * @param videosInfo - the list of info to write
 	 * @param file - the file in which to write the info
 	 * @throws IOException - if while the writing an error occurs
 	 */
-	public static void write(ArrayList<VideoInfo> videosInfo, File file) throws IOException {
+	public static void writeCSV(ArrayList<VideoInfo> videosInfo, File file) throws IOException {
 		if (videosInfo == null)
 			throw new IllegalArgumentException("Unable to write a null list of videos info");
 		if (file == null)

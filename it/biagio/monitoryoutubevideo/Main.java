@@ -57,7 +57,7 @@ public class Main implements UrlListener, ButtonsListener
 	/**
 	 * The name of the program
 	 */
-	private static final String PROGRAM_NAME = "Monitor YouTube Video v.1.0";
+	private static final String PROGRAM_NAME = "Monitor YouTube Video v.1.1";
 	
 	
 	
@@ -257,7 +257,7 @@ public class Main implements UrlListener, ButtonsListener
 			File file = fileChooser.getSelectedFile();
 			try {
 				// write the infos on the file
-				IO.write(videosInfo, file);
+				IO.writeCSV(videosInfo, file);
 				JOptionPane.showMessageDialog(mainFrame, "Info saved correctly", PROGRAM_NAME, JOptionPane.INFORMATION_MESSAGE);
 				return true;
 			} catch (IllegalArgumentException ex) {
