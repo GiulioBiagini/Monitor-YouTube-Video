@@ -114,6 +114,9 @@ public class Main implements UrlListener, ButtonsListener
 	/** The GUI */
 	private MainFrame mainFrame;
 	
+	/** The url */
+	private String url;
+	
 	
 	
 	/**
@@ -130,6 +133,9 @@ public class Main implements UrlListener, ButtonsListener
 		mainFrame.setStopButtonEnabled(false);
 		mainFrame.setClearButtonEnabled(false);
 		mainFrame.setSaveButtonEnabled(false);
+		
+		url = mainFrame.getUrlTextFieldContent();
+		
 		mainFrame.setVisible(true);
 	}
 	
@@ -142,7 +148,7 @@ public class Main implements UrlListener, ButtonsListener
 		// if PAUSE the "tick" is ignored
 		if (state != STATE_PAUSE) {
 			// read the info
-			VideoInfo videoInfo = HTMLReader.getVideoInfo(mainFrame.getUrlTextFieldContent());
+			VideoInfo videoInfo = HTMLReader.getVideoInfo(url);
 			
 			// if there is not a general error, memorize the info
 			if (!videoInfo.isGeneralError()) {
@@ -167,6 +173,8 @@ public class Main implements UrlListener, ButtonsListener
 				mainFrame.setStartButtonEnabled(true);
 		} else if (mainFrame.isStartButtonEnabled())
 			mainFrame.setStartButtonEnabled(false);
+		
+		this.url = url;
 	}
 	
 	@Override
@@ -208,8 +216,7 @@ public class Main implements UrlListener, ButtonsListener
 		if (state != STATE_PAUSE) {
 			if (mainFrame.isUrlTextFieldEnabled())
 				mainFrame.setUrlTextFieldEnabled(false);
-			if (!mainFrame.isStartButtonEnabled())
-				mainFrame.setStartButtonEnabled(true);
+			onUrlChanged(mainFrame.getUrlTextFieldContent());
 			if (mainFrame.isPauseButtonEnabled())
 				mainFrame.setPauseButtonEnabled(false);
 			if (!mainFrame.isStopButtonEnabled())
@@ -222,9 +229,9 @@ public class Main implements UrlListener, ButtonsListener
 	@Override
 	public void onStop() {
 		if (state != STATE_STOP) {
+			if (!mainFrame.isUrlTextFieldEnabled())
+				mainFrame.setUrlTextFieldEnabled(true);
 			onUrlChanged(mainFrame.getUrlTextFieldContent());
-			if (!mainFrame.isStartButtonEnabled())
-				mainFrame.setStartButtonEnabled(true);
 			if (mainFrame.isPauseButtonEnabled())
 				mainFrame.setPauseButtonEnabled(false);
 			if (mainFrame.isStopButtonEnabled())
