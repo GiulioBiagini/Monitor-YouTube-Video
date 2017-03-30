@@ -21,33 +21,29 @@
 
 
 
-package it.biagio.monitoryoutubevideo;
+package it.biagio.monitoryoutubevideo.model.timer;
 
 
 
 /**
- * The main class.
+ * Class for the internal state of the timer.
  * 
  * @author Giulio Biagini - giulio.biagini90@gmail.com
  */
-public class Main
+public enum TimerState
 {
 	/**
-	 * The name of the program
+	 * The state in which the timer is active
 	 */
-	private static final String PROGRAM_NAME = "Monitor YouTube Video v.2.0";
+	START,
 	
+	/**
+	 * The state in which the timer is paused
+	 */
+	STOP,
 	
-	
-	public static void main(String[] args) {
-		if (args.length == 0)
-			new Gui(PROGRAM_NAME);
-		else if (args.length == 2)
-			new CommandLine(args[0], args[1]);
-		else
-			System.err.println(
-				"- give the program 0 args to show the gui\n" +
-				"- give the program 2 args (\"url\" \"output_file\") to start the daemon"
-			);
-	}
+	/**
+	 * The state in which the timer is not working
+	 */
+	PAUSE
 }

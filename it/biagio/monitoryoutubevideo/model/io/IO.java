@@ -29,64 +29,57 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
-import it.biagio.monitoryoutubevideo.model.info.VideoInfo;
 
 
 
 /**
- * Class to write to a file a list of videos info.
+ * Class to write on a file.
  * 
  * @author Giulio Biagini - giulio.biagini90@gmail.com
  */
 public class IO
 {
 	/**
-	 * The format of the date
-	 */
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	
-	/**
-	 * The string used to divide each datum
-	 */
-	private static final String DATA_SEPARATOR = ",";
-	
-	/**
-	 * The string used to divide each VideoInfo
-	 */
-	private static final String LINE_SEPARATOR = System.lineSeparator();
-	
-	
-	
-	/**
-	 * Write the videos info into a csv (comma separated value) file
+	 * Write a string appending it at the end of a file (if the file already
+	 * exists) or overwriting it.
 	 * 
-	 * @param videosInfo - the list of info to write
-	 * @param file - the file in which to write the info
-	 * @throws IOException - if while the writing an error occurs
+	 * @param string - the string to write
+	 * @param file - the file in which to write the string
+	 * @param append - if the string have to be appended or the file have to
+	 * be overwritten
+	 * @throws IOException - if while writing an error occurs
 	 */
-	public static void writeCSV(ArrayList<VideoInfo> videosInfo, File file) throws IOException {
-		if (videosInfo == null)
-			throw new IllegalArgumentException("Unable to write a null list of videos info");
+	private static void write(String string, File file, boolean append) throws IOException {
 		if (file == null)
-			throw new IllegalArgumentException("Unable to write the list in a null file");
-		
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-		for (VideoInfo videoInfo : videosInfo) {
-			if (videoInfo != null && !videoInfo.isGeneralError())
-				bufferedWriter.write(
-					DATE_FORMAT.format(videoInfo.getDate()) + DATA_SEPARATOR +
-					(videoInfo.isTitleError() ? "" : videoInfo.getTitle().replace(DATA_SEPARATOR, " ")) + DATA_SEPARATOR +
-					(videoInfo.isUserError() ? "" : videoInfo.getUser().replace(DATA_SEPARATOR, " ")) + DATA_SEPARATOR + 
-					(videoInfo.isSubscribersCountError() ? "" : videoInfo.getSubscribersCount()) + DATA_SEPARATOR +
-					(videoInfo.isViewsCountError() ? "" : videoInfo.getViewsCount()) + DATA_SEPARATOR +
-					(videoInfo.isLikeCountError() ? "" : videoInfo.getLikeCount()) + DATA_SEPARATOR +
-					(videoInfo.isUnlikeCountError() ? "" : videoInfo.getUnlikeCount()) + LINE_SEPARATOR
-				);
+			throw new IllegalArgumentException("Unable to write in a null file");
+		if (string != null) {
+			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, append));
+			bufferedWriter.write(string);
+			bufferedWriter.close();
 		}
-		bufferedWriter.close();
+	}
+	
+	
+	
+	/**
+	 * Write a string in a file overwriting it if already exists
+	 * 
+	 * @param string - the string to write
+	 * @param file - the file in which to write the string
+	 * @throws IOException - if while writing an error occurs
+	 */
+	public static void overwrite(String string, File file) throws IOException {
+		write(string, file, false);
+	}
+	
+	/**
+	 * Write a string appending it at the end of a file.
+	 * 
+	 * @param string - the string to write
+	 * @param file - the file in which to write the string
+	 * @throws IOException - if while writing an error occurs
+	 */
+	public static void append(String string, File file) throws IOException {
+		write(string, file, true);
 	}
 }

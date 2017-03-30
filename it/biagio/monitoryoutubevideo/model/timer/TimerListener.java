@@ -21,33 +21,24 @@
 
 
 
-package it.biagio.monitoryoutubevideo;
+package it.biagio.monitoryoutubevideo.model.timer;
+
+import it.biagio.monitoryoutubevideo.model.info.VideoInfo;
 
 
 
 /**
- * The main class.
+ * Interface used by the timer to notify the time expiration.
  * 
  * @author Giulio Biagini - giulio.biagini90@gmail.com
  */
-public class Main
+public interface TimerListener
 {
 	/**
-	 * The name of the program
+	 * Action triggered by the timer when the time between two
+	 * notifications has come to the end
+	 * 
+	 * @param videoInfo - the object containing the info retrieved
 	 */
-	private static final String PROGRAM_NAME = "Monitor YouTube Video v.2.0";
-	
-	
-	
-	public static void main(String[] args) {
-		if (args.length == 0)
-			new Gui(PROGRAM_NAME);
-		else if (args.length == 2)
-			new CommandLine(args[0], args[1]);
-		else
-			System.err.println(
-				"- give the program 0 args to show the gui\n" +
-				"- give the program 2 args (\"url\" \"output_file\") to start the daemon"
-			);
-	}
+	public void onTimeExpired(VideoInfo videoInfo);
 }
