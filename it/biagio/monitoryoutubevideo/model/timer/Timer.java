@@ -49,7 +49,7 @@ public class Timer
 	/**
 	 * Time in millisec between two notifications (5 mins)
 	 */
-	private static final long PERIOD = 5L * 60L * 5000L;
+	private static final long PERIOD = 5L * 60L * 1000L;
 	
 	
 	
