@@ -74,7 +74,7 @@ public class CommandLine implements TimerListener
 	@Override
 	public void onTimeExpired(VideoInfo videoInfo) {
 		// log
-		System.out.print(VideoInfoFormatter.toLog(videoInfo, log, log, log, log, log, log, log));
+		System.out.print(VideoInfoFormatter.toLog(videoInfo, true, log, log, log, log, log, log));
 		// save the info
 		try {
 			IO.append(VideoInfoFormatter.toCSV(videoInfo), file);
