@@ -342,59 +342,44 @@ public class HTMLReader
 	 * @throws IOException - if the GET method used to connect to the url fails
 	 * @throws HTMLReaderException - if it is not possible to find the element which contains all info
 	 */
-	public static VideoInfo getVideoInfo(String url) {
+	public static VideoInfo getVideoInfo(final String url) {
 		VideoInfo videoInfo = new VideoInfo();
-		
-		if (url == null) {
-			videoInfo.setGeneralError("Unable to read from a null url");
-			return videoInfo;
-		}
-		if (url.isEmpty()) {
-			videoInfo.setGeneralError("Unable to read from an empty url");
-			return videoInfo;
-		}
 		
 		try {
 			HTMLReader.read(url);
-		} catch (IllegalArgumentException ex) {
-			videoInfo.setGeneralError(ex.getMessage());
-			return videoInfo;
-		} catch (IOException ex) {
-			videoInfo.setGeneralError(ex.getMessage());
-			return videoInfo;
-		} catch (HTMLReaderException ex) {
+		} catch (Exception ex) {
 			videoInfo.setGeneralError(ex.getMessage());
 			return videoInfo;
 		}
 		
 		try {
 			videoInfo.setTitle(HTMLReader.getTitle());
-		} catch (HTMLReaderException ex) {
+		} catch (Exception ex) {
 			videoInfo.setTitleError(ex.getMessage());
 		}
 		try {
 			videoInfo.setUser(HTMLReader.getUser());
-		} catch (HTMLReaderException ex) {
+		} catch (Exception ex) {
 			videoInfo.setUserError(ex.getMessage());
 		}
 		try {
 			videoInfo.setSubscribersCount(HTMLReader.getSubscribersCount());
-		} catch (HTMLReaderException ex) {
+		} catch (Exception ex) {
 			videoInfo.setSubscribersCountError(ex.getMessage());
 		}
 		try {
 			videoInfo.setViewsCount(HTMLReader.getViewsCount());
-		} catch (HTMLReaderException ex) {
+		} catch (Exception ex) {
 			videoInfo.setViewsCountError(ex.getMessage());
 		}
 		try {
 			videoInfo.setLikeCount(HTMLReader.getLikeCount());
-		} catch (HTMLReaderException ex) {
+		} catch (Exception ex) {
 			videoInfo.setLikeCountError(ex.getMessage());
 		}
 		try {
 			videoInfo.setUnlikeCount(HTMLReader.getUnlikeCount());
-		} catch (HTMLReaderException ex) {
+		} catch (Exception ex) {
 			videoInfo.setUnlikeCountError(ex.getMessage());
 		}
 		

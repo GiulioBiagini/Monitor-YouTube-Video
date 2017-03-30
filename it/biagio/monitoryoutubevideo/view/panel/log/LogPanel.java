@@ -27,8 +27,6 @@ package it.biagio.monitoryoutubevideo.view.panel.log;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -38,7 +36,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.text.DefaultCaret;
 
-import it.biagio.monitoryoutubevideo.model.info.VideoInfo;
 import it.biagio.monitoryoutubevideo.view.Const;
 import it.biagio.monitoryoutubevideo.view.panel.APanel;
 
@@ -52,18 +49,6 @@ import it.biagio.monitoryoutubevideo.view.panel.APanel;
 @SuppressWarnings("serial")
 public class LogPanel extends APanel
 {
-	/**
-	 * The format of the date
-	 */
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("[yyyy/MM/dd - HH:mm:ss]");
-	
-	/**
-	 * The string used for the "newline"
-	 */
-	private static final String LINE_SEPARATOR = System.lineSeparator();
-	
-	
-	
 	/** ScrollPane to scroll the log text area */
 	private JScrollPane logScrollPane;
 	
@@ -156,38 +141,13 @@ public class LogPanel extends APanel
 	
 	
 	/**
-	 * Append a video info in the log text area
+	 * Append a line in the log text area
 	 * 
-	 * @param videoInfo - the info related to the video
+	 * @param log - the log
 	 */
-	public synchronized void appendLog(VideoInfo videoInfo) {
-		if (videoInfo != null) {
-			String log = DATE_FORMAT.format(videoInfo.getDate()) + LINE_SEPARATOR;
-			if (videoInfo.isGeneralError())
-				log += "ERROR:\t" + videoInfo.getGeneralErrorDetails() + LINE_SEPARATOR;
-			else {
-				if (titleToggleButton.isSelected())
-					log += Const.TITLE_LOG_TEXT + ":\t" +
-						(videoInfo.isTitleError() ? Const.ERROR_LOG_TEXT + ": " + videoInfo.getTitleErrorDetails() : videoInfo.getTitle()) + LINE_SEPARATOR;
-				if (userToggleButton.isSelected())
-					log += Const.USER_LOG_TEXT + ":\t" +
-						(videoInfo.isUserError() ? Const.ERROR_LOG_TEXT + ": " + videoInfo.getUserErrorDetails() : videoInfo.getUser()) + LINE_SEPARATOR;
-				if (subscribersCountToggleButton.isSelected())
-					log += Const.SUBSCRIBERS_COUNT_LOG_TEXT + ":\t" +
-						(videoInfo.isSubscribersCountError() ? Const.ERROR_LOG_TEXT + ": " + videoInfo.getSubscribersCountErrorDetails() : videoInfo.getSubscribersCount()) + LINE_SEPARATOR;
-				if (viewsCountToggleButton.isSelected())
-					log += Const.VIEWS_COUNT_LOG_TEXT + ":\t" +
-						(videoInfo.isViewsCountError() ? Const.ERROR_LOG_TEXT + ": " + videoInfo.getViewsCountErrorDetails() : videoInfo.getViewsCount()) + LINE_SEPARATOR;
-				if (likeCountToggleButton.isSelected())
-					log += Const.LIKE_COUNT_LOG_TEXT + ":\t" +
-						(videoInfo.isLikeCountError() ? Const.ERROR_LOG_TEXT + ": " + videoInfo.getLikeCountErrorDetails() : videoInfo.getLikeCount()) + LINE_SEPARATOR;
-				if (unlikeCountToggleButton.isSelected())
-					log += Const.UNLIKE_COUNT_LOG_TEXT + ":\t" +
-						(videoInfo.isUnlikeCountError() ? Const.ERROR_LOG_TEXT + ": " + videoInfo.getUnlikeCountErrorDetails() : videoInfo.getUnlikeCount()) + LINE_SEPARATOR;
-			}
-			log += LINE_SEPARATOR;
-			logTextArea.append(log);
-		}
+	public synchronized void appendLog(String log) {
+		if (log != null)
+			logTextArea.append(log + System.lineSeparator());
 	}
 	
 	/**
@@ -195,5 +155,61 @@ public class LogPanel extends APanel
 	 */
 	public synchronized void clearLogTextArea() {
 		logTextArea.setText("");
+	}
+	
+	
+	
+	/**
+	 * Check if the title toggle button is selected
+	 * 
+	 * @return true if the title toggle button is selected, false otherwise
+	 */
+	public boolean isTitleToggleButtonSelected() {
+		return titleToggleButton.isSelected();
+	}
+	
+	/**
+	 * Check if the user toggle button is selected
+	 * 
+	 * @return true if the user toggle button is selected, false otherwise
+	 */
+	public boolean isUserToggleButtonSelected() {
+		return userToggleButton.isSelected();
+	}
+	
+	/**
+	 * Check if the subscriptions count toggle button is selected
+	 * 
+	 * @return true if the subscriptions count toggle button is selected, false otherwise
+	 */
+	public boolean isSubscribersCountToggleButtonSelected() {
+		return subscribersCountToggleButton.isSelected();
+	}
+	
+	/**
+	 * Check if the views count toggle button is selected
+	 * 
+	 * @return true if the views count toggle button is selected, false otherwise
+	 */
+	public boolean isViewsCountToggleButtonSelected() {
+		return viewsCountToggleButton.isSelected();
+	}
+	
+	/**
+	 * Check if the like count toggle button is selected
+	 * 
+	 * @return true if the like count toggle button is selected, false otherwise
+	 */
+	public boolean isLikeCountToggleButtonSelected() {
+		return likeCountToggleButton.isSelected();
+	}
+	
+	/**
+	 * Check if the unlike count toggle button is selected
+	 * 
+	 * @return true if the unlike count toggle button is selected, false otherwise
+	 */
+	public boolean isUnlikeCountToggleButtonSelected() {
+		return unlikeCountToggleButton.isSelected();
 	}
 }

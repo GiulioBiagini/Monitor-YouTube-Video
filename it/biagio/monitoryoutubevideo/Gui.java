@@ -26,7 +26,6 @@ package it.biagio.monitoryoutubevideo;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -35,6 +34,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import it.biagio.monitoryoutubevideo.model.info.VideoInfo;
+import it.biagio.monitoryoutubevideo.model.info.VideoInfoFormatter;
 import it.biagio.monitoryoutubevideo.model.io.IO;
 import it.biagio.monitoryoutubevideo.model.timer.Timer;
 import it.biagio.monitoryoutubevideo.model.timer.TimerListener;
@@ -91,7 +91,7 @@ public class Gui implements TimerListener, UrlListener, ButtonsListener
 	public Gui(final String PROGRAM_NAME) {
 		this.PROGRAM_NAME = PROGRAM_NAME;
 		
-		timer = new Timer(this);
+		timer = new Timer(true, this);
 		
 		videosInfo = new ArrayList<VideoInfo>();
 		
@@ -121,17 +121,25 @@ public class Gui implements TimerListener, UrlListener, ButtonsListener
 	
 	@Override
 	public void onTimeExpired(VideoInfo videoInfo) {
-		// if there is not a general error, memorize the info
-		if (!videoInfo.isGeneralError()) {
-			videosInfo.add(videoInfo);
-			if (!mainFrame.isSaveButtonEnabled())
-				mainFrame.setSaveButtonEnabled(true);
-		}
-		
-		// log into the log text area
-		mainFrame.appendLog(videoInfo);
+		if (!mainFrame.isSaveButtonEnabled())
+			mainFrame.setSaveButtonEnabled(true);
 		if (!mainFrame.isClearButtonEnabled())
 			mainFrame.setClearButtonEnabled(true);
+		
+		// log the info
+		mainFrame.appendLog(VideoInfoFormatter.toLog(
+			videoInfo,
+			true,
+			mainFrame.isTitleToggleButtonSelected(),
+			mainFrame.isUserToggleButtonSelecte(),
+			mainFrame.isSubscribersCountToggleButtonSelecte(),
+			mainFrame.isViewsCountToggleButtonSelecte(),
+			mainFrame.isLikeCountToggleButtonSelecte(),
+			mainFrame.isUnlikeCountToggleButtonSelecte()
+		));
+		
+		// save the info
+		videosInfo.add(videoInfo);
 	}
 	
 	
@@ -147,7 +155,7 @@ public class Gui implements TimerListener, UrlListener, ButtonsListener
 	
 	@Override
 	public void onUrlEnter() {
-		// if the start button is enabled, start the monitor
+		// if the start button is enabled, start the monitoring
 		if (mainFrame.isStartButtonEnabled())
 			onStart();
 	}
@@ -210,13 +218,12 @@ public class Gui implements TimerListener, UrlListener, ButtonsListener
 			File file = fileChooser.getSelectedFile();
 			try {
 				// write the infos on the file
-				IO.writeCSV(videosInfo, file);
+				for (VideoInfo videoInfo : videosInfo)
+					IO.append(VideoInfoFormatter.toCSV(videoInfo), file);
 				JOptionPane.showMessageDialog(mainFrame, "Info saved correctly", PROGRAM_NAME, JOptionPane.INFORMATION_MESSAGE);
 				return true;
-			} catch (IllegalArgumentException ex) {
-				JOptionPane.showMessageDialog(mainFrame, "ERROR: " + ex.getMessage(), PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
-			} catch (IOException ex) {
-				JOptionPane.showMessageDialog(mainFrame, "ERROR: " + ex.getMessage(), PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(mainFrame, "ERROR - unable to save: " + ex.getMessage(), PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		return false;

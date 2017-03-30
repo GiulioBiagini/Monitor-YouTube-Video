@@ -49,7 +49,7 @@ public class Timer
 	/**
 	 * Time in millisec between two notifications (5 mins)
 	 */
-	private static final long PERIOD = 5L * 60L * 1000L;
+	private static final long PERIOD = /*5L * 60L **/ 5000L;
 	
 	
 	
@@ -59,6 +59,9 @@ public class Timer
 	/** The internal state of the timer */
 	private TimerState state;
 	
+	/** if the associated thread which performs the action should run as daemon */
+	private boolean isDaemon;
+	
 	/** The object to notify */
 	private TimerListener listener;
 	
@@ -67,13 +70,13 @@ public class Timer
 	/**
 	 * Create a new timer
 	 * 
+	 * @param isDaemon - if the associated thread which performs the action
+	 * should run as daemon
 	 * @param listener - the object to notify
 	 */
-	public Timer(TimerListener listener) {
-		if (listener == null)
-			throw new IllegalArgumentException("Specify a listener for the timer");
-		
+	public Timer(boolean isDaemon, TimerListener listener) {
 		this.state = TimerState.STOP;
+		this.isDaemon = isDaemon;
 		this.listener = listener;
 	}
 	
@@ -89,12 +92,12 @@ public class Timer
 			state = TimerState.START;
 		else {
 			state = TimerState.START;
-			timer = new java.util.Timer(true);
+			timer = new java.util.Timer(isDaemon);
 			timer.scheduleAtFixedRate(
 				new TimerTask() {
 					@Override
 					public void run() {
-						if (state == TimerState.START)
+						if (state == TimerState.START && listener != null)
 							listener.onTimeExpired(
 								HTMLReader.getVideoInfo(URL)
 							);

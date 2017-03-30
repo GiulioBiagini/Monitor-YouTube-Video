@@ -41,45 +41,19 @@ public class IO
 {
 	/**
 	 * Write a string appending it at the end of a file (if the file already
-	 * exists) or overwriting it.
-	 * 
-	 * @param string - the string to write
-	 * @param file - the file in which to write the string
-	 * @param append - if the string have to be appended or the file have to
-	 * be overwritten
-	 * @throws IOException - if while writing an error occurs
-	 */
-	private static void write(String string, File file, boolean append) throws IOException {
-		if (file == null)
-			throw new IllegalArgumentException("Unable to write in a null file");
-		if (string != null) {
-			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, append));
-			bufferedWriter.write(string);
-			bufferedWriter.close();
-		}
-	}
-	
-	
-	
-	/**
-	 * Write a string in a file overwriting it if already exists
-	 * 
-	 * @param string - the string to write
-	 * @param file - the file in which to write the string
-	 * @throws IOException - if while writing an error occurs
-	 */
-	public static void overwrite(String string, File file) throws IOException {
-		write(string, file, false);
-	}
-	
-	/**
-	 * Write a string appending it at the end of a file.
+	 * exists)
 	 * 
 	 * @param string - the string to write
 	 * @param file - the file in which to write the string
 	 * @throws IOException - if while writing an error occurs
 	 */
 	public static void append(String string, File file) throws IOException {
-		write(string, file, true);
+		if (file == null)
+			throw new IllegalArgumentException("Unable to write in a null file");
+		if (string != null) {
+			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+			bufferedWriter.write(string);
+			bufferedWriter.close();
+		}
 	}
 }

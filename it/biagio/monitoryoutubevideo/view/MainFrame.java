@@ -31,7 +31,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import it.biagio.monitoryoutubevideo.model.info.VideoInfo;
 import it.biagio.monitoryoutubevideo.view.panel.buttons.ButtonsListener;
 import it.biagio.monitoryoutubevideo.view.panel.buttons.ButtonsPanel;
 import it.biagio.monitoryoutubevideo.view.panel.log.LogPanel;
@@ -188,6 +187,60 @@ public class MainFrame extends JFrame
 	}
 	
 	/**
+	 * Check if the title toggle button is selected
+	 * 
+	 * @return true if the title toggle button is selected, false otherwise
+	 */
+	public boolean isTitleToggleButtonSelected() {
+		return logPanel.isTitleToggleButtonSelected();
+	}
+	
+	/**
+	 * Check if the user toggle button is selected
+	 * 
+	 * @return true if the user toggle button is selected, false otherwise
+	 */
+	public boolean isUserToggleButtonSelecte() {
+		return logPanel.isUserToggleButtonSelected();
+	}
+	
+	/**
+	 * Check if the subscriptions count toggle button is selected
+	 * 
+	 * @return true if the subscriptions count toggle button is selected, false otherwise
+	 */
+	public boolean isSubscribersCountToggleButtonSelecte() {
+		return logPanel.isSubscribersCountToggleButtonSelected();
+	}
+	
+	/**
+	 * Check if the views count toggle button is selected
+	 * 
+	 * @return true if the views count toggle button is selected, false otherwise
+	 */
+	public boolean isViewsCountToggleButtonSelecte() {
+		return logPanel.isViewsCountToggleButtonSelected();
+	}
+	
+	/**
+	 * Check if the like count toggle button is selected
+	 * 
+	 * @return true if the like count toggle button is selected, false otherwise
+	 */
+	public boolean isLikeCountToggleButtonSelecte() {
+		return logPanel.isLikeCountToggleButtonSelected();
+	}
+	
+	/**
+	 * Check if the unlike count toggle button is selected
+	 * 
+	 * @return true if the unlike count toggle button is selected, false otherwise
+	 */
+	public boolean isUnlikeCountToggleButtonSelecte() {
+		return logPanel.isUnlikeCountToggleButtonSelected();
+	}
+	
+	/**
 	 * Check if the start button is enabled or disabled
 	 * 
 	 * @return true if the start button is enabled, false otherwise
@@ -253,12 +306,12 @@ public class MainFrame extends JFrame
 	}
 	
 	/**
-	 * Append a video info in the log text area
+	 * Append a line in the log text area
 	 * 
-	 * @param videoInfo - the info related to the video
+	 * @param log - the log
 	 */
-	public void appendLog(VideoInfo videoInfo) {
-		logPanel.appendLog(videoInfo);
+	public void appendLog(String log) {
+		logPanel.appendLog(log);
 	}
 	
 	/**

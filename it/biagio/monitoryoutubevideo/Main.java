@@ -43,11 +43,17 @@ public class Main
 		if (args.length == 0)
 			new Gui(PROGRAM_NAME);
 		else if (args.length == 2)
-			new CommandLine(args[0], args[1]);
+			new CommandLine(args[0], args[1], false);
+		else if (args.length == 3 && args[0].equals("-l"))
+			new CommandLine(args[1], args[2], true);
 		else
 			System.err.println(
-				"- give the program 0 args to show the gui\n" +
-				"- give the program 2 args (\"url\" \"output_file\") to start the daemon"
+				"usage:" + System.lineSeparator() +
+				"\tmonitor youtube video" + System.lineSeparator() +
+				"\t\tstart the program showing the gui" + System.lineSeparator() +
+				"\tmonitor youtube video [-l] <url> <output_file>" + System.lineSeparator() +
+				"\t\tstart the program monitoring the <url> and saving info into <output_file>" + System.lineSeparator() +
+				"\t\t-l: to log info as well as timestamp (always shown) on the screen"
 			);
 	}
 }

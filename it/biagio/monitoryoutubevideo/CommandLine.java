@@ -26,7 +26,6 @@ package it.biagio.monitoryoutubevideo;
 
 
 import java.io.File;
-import java.io.IOException;
 
 import it.biagio.monitoryoutubevideo.model.info.VideoInfo;
 import it.biagio.monitoryoutubevideo.model.info.VideoInfoFormatter;
@@ -51,6 +50,9 @@ public class CommandLine implements TimerListener
 	/** The file into which save the info */
 	private File file;
 	
+	/** If show logs on the screen */
+	private boolean log;
+	
 	
 	
 	/**
@@ -58,23 +60,28 @@ public class CommandLine implements TimerListener
 	 * 
 	 * @param url - the youtube video's url 
 	 * @param file - the file into which to store the retrieved infos
+	 * @param log - true to show logs on the screen
 	 */
-	public CommandLine(String url, String file) {
+	public CommandLine(String url, String file, boolean log) {
 		this.file = new File(file);
-		if (this.file.exists() && !this.file.isFile())
-		timer = new Timer(this);
-		timer.start(url);
+		this.log = log;
+		this.timer = new Timer(false, this);
+		this.timer.start(url);
 	}
 	
 	
 	
 	@Override
 	public void onTimeExpired(VideoInfo videoInfo) {
-		System.out.println(VideoInfoFormatter.toLog(videoInfo, true, true, true, true, true, true));
+		// log
+		System.out.print(VideoInfoFormatter.toLog(videoInfo, log, log, log, log, log, log, log));
+		// save the info
 		try {
 			IO.append(VideoInfoFormatter.toCSV(videoInfo), file);
-		} catch (IOException ex) {
-			System.err.println("Unable to write this info to the file: " + ex.getMessage());
+			System.out.println("- SAVED -");
+		} catch (Exception ex) {
+			System.err.println("- UNABLE TO SAVE: " + ex.getMessage());
 		}
+		System.out.println();
 	}
 }

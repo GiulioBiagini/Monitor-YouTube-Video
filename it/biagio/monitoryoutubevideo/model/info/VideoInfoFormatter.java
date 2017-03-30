@@ -58,6 +58,7 @@ public class VideoInfoFormatter
 	 * Create a string with the specified informations, one per line
 	 * 
 	 * @param videoInfo - the video's info
+	 * @param showGeneralError - if in case of general error it must appear in the output string
 	 * @param showTitle - if the title must appear in the output string
 	 * @param showUser - if the user must appear in the output string
 	 * @param showSubscribers  - if the subscribers number must appear in the output string
@@ -66,21 +67,19 @@ public class VideoInfoFormatter
 	 * @param showUnlike - if the unlike number must appear in the output string
 	 * @return a string with the informations one per line
 	 */
-	public static String toLog(VideoInfo videoInfo, boolean showTitle, boolean showUser, boolean showSubscribers, boolean showViews, boolean showLike, boolean showUnlike) {
+	public static String toLog(VideoInfo videoInfo, boolean showGeneralError, boolean showTitle, boolean showUser, boolean showSubscribers, boolean showViews, boolean showLike, boolean showUnlike) {
 		if (videoInfo == null)
 			return null;
 		if (videoInfo.isGeneralError())
 			return DATE_FORMAT.format(videoInfo.getDate()) + LINE_SEPARATOR +
-				"ERROR:\t" + videoInfo.getGeneralErrorDetails() + LINE_SEPARATOR +
-				LINE_SEPARATOR;
+				(showGeneralError ? "ERROR:\t" + videoInfo.getGeneralErrorDetails() + LINE_SEPARATOR : "");
 		return DATE_FORMAT.format(videoInfo.getDate()) + LINE_SEPARATOR +
-			(showTitle ? "Title:\t" + (videoInfo.isTitleError() ? "ERROR: " + videoInfo.getTitleErrorDetails() : videoInfo.getTitle()) : "") + LINE_SEPARATOR +
-			(showUser ? "User:\t" + (videoInfo.isUserError() ? "ERROR: " + videoInfo.getUserErrorDetails() : videoInfo.getUser()) : "") + LINE_SEPARATOR +
-			(showSubscribers ? "Subs:\t" + (videoInfo.isSubscribersCountError() ? "ERROR: " + videoInfo.getSubscribersCountErrorDetails() : videoInfo.getSubscribersCount()) : "") + LINE_SEPARATOR +
-			(showViews ? "Views:\t" + (videoInfo.isViewsCountError() ? "ERROR: " + videoInfo.getViewsCountErrorDetails() : videoInfo.getViewsCount()) : "") + LINE_SEPARATOR +
-			(showLike ? "Like:\t" + (videoInfo.isLikeCountError() ? "ERROR: " + videoInfo.getLikeCountErrorDetails() : videoInfo.getLikeCount()) : "") + LINE_SEPARATOR +
-			(showUnlike ? "Unlike:\t" + (videoInfo.isUnlikeCountError() ? "ERROR: " + videoInfo.getUnlikeCountErrorDetails() : videoInfo.getUnlikeCount()) : "") + LINE_SEPARATOR +
-			LINE_SEPARATOR;
+			(showTitle ? "Title:\t" + (videoInfo.isTitleError() ? "ERROR: " + videoInfo.getTitleErrorDetails() : videoInfo.getTitle()) + LINE_SEPARATOR : "") +
+			(showUser ? "User:\t" + (videoInfo.isUserError() ? "ERROR: " + videoInfo.getUserErrorDetails() : videoInfo.getUser())+ LINE_SEPARATOR : "") +
+			(showSubscribers ? "Subs:\t" + (videoInfo.isSubscribersCountError() ? "ERROR: " + videoInfo.getSubscribersCountErrorDetails() : videoInfo.getSubscribersCount())+ LINE_SEPARATOR : "") +
+			(showViews ? "Views:\t" + (videoInfo.isViewsCountError() ? "ERROR: " + videoInfo.getViewsCountErrorDetails() : videoInfo.getViewsCount())+ LINE_SEPARATOR : "") +
+			(showLike ? "Like:\t" + (videoInfo.isLikeCountError() ? "ERROR: " + videoInfo.getLikeCountErrorDetails() : videoInfo.getLikeCount())+ LINE_SEPARATOR : "") +
+			(showUnlike ? "Unlike:\t" + (videoInfo.isUnlikeCountError() ? "ERROR: " + videoInfo.getUnlikeCountErrorDetails() : videoInfo.getUnlikeCount())+ LINE_SEPARATOR : "");
 	}
 	
 	/**
@@ -97,9 +96,14 @@ public class VideoInfoFormatter
 		if (videoInfo == null)
 			return null;
 		if (videoInfo.isGeneralError())
-			return DATE_FORMAT.format(videoInfo.getDate()) + LINE_SEPARATOR +
-				"" + CSV_DATA_SEPARATOR + "" + CSV_DATA_SEPARATOR + "" + CSV_DATA_SEPARATOR + "" + CSV_DATA_SEPARATOR + "" + CSV_DATA_SEPARATOR + "";
-		return DATE_FORMAT.format(videoInfo.getDate()) + LINE_SEPARATOR +
+			return DATE_FORMAT.format(videoInfo.getDate()) + CSV_DATA_SEPARATOR +
+				"" + CSV_DATA_SEPARATOR +
+				"" + CSV_DATA_SEPARATOR +
+				"" + CSV_DATA_SEPARATOR +
+				"" + CSV_DATA_SEPARATOR +
+				"" + CSV_DATA_SEPARATOR +
+				"" + LINE_SEPARATOR;
+		return DATE_FORMAT.format(videoInfo.getDate()) + CSV_DATA_SEPARATOR +
 			(videoInfo.isTitleError() ? "" : videoInfo.getTitle().replace(CSV_DATA_SEPARATOR, " ")) + CSV_DATA_SEPARATOR +
 			(videoInfo.isUserError() ? "" : videoInfo.getUser().replace(CSV_DATA_SEPARATOR, " ")) + CSV_DATA_SEPARATOR +
 			(videoInfo.isSubscribersCountError() ? "" : videoInfo.getSubscribersCount()) + CSV_DATA_SEPARATOR +

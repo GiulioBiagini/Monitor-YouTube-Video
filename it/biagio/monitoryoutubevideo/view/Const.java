@@ -118,24 +118,6 @@ public class Const
 	 * STRINGS
 	 */
 	
-	public static final String ERROR_LOG_TEXT = "ERROR";
-	
-	
-	
-	public static final String TITLE_LOG_TEXT = "Title";
-
-	public static final String USER_LOG_TEXT = "User";
-	
-	public static final String SUBSCRIBERS_COUNT_LOG_TEXT = "Subs";
-	
-	public static final String VIEWS_COUNT_LOG_TEXT = "Views";
-	
-	public static final String LIKE_COUNT_LOG_TEXT = "Like";
-	
-	public static final String UNLIKE_COUNT_LOG_TEXT = "Unlike";
-	
-	
-	
 	public static final String FILTERS_LABEL_TEXT = "Show:";
 	
 	
