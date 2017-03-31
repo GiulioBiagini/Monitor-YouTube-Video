@@ -221,7 +221,7 @@ public class Gui implements TimerListener, UrlListener, ButtonsListener
 				IO.open(
 					file,
 					file.exists() &&
-					JOptionPane.showConfirmDialog(mainFrame, "The file already exists: overwrite it?", PROGRAM_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION
+					JOptionPane.showConfirmDialog(mainFrame, "The file already exists: overwrite it (choose \"no\" to append data)?", PROGRAM_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION
 				);
 				for (VideoInfo videoInfo : videosInfo)
 					IO.write(VideoInfoFormatter.toCSV(videoInfo));
@@ -229,7 +229,7 @@ public class Gui implements TimerListener, UrlListener, ButtonsListener
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(mainFrame, "ERROR - unable to save: " + ex.getMessage(), PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
 			}
-			JOptionPane.showMessageDialog(mainFrame, "Info saved correctly", PROGRAM_NAME, JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(mainFrame, "Data saved correctly", PROGRAM_NAME, JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	
@@ -238,7 +238,7 @@ public class Gui implements TimerListener, UrlListener, ButtonsListener
 		// there are not info memorized or the user chosed to exit anyway
 		if (
 			videosInfo.size() == 0 ||
-			JOptionPane.showConfirmDialog(mainFrame, "There are unsaved info: exit anyway?", PROGRAM_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION
+			JOptionPane.showConfirmDialog(mainFrame, "There are unsaved data: exit anyway?", PROGRAM_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION
 		) {
 			timer.stop();
 			mainFrame.dispose();
