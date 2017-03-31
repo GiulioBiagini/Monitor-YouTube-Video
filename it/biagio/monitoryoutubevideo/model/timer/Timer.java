@@ -90,8 +90,9 @@ public class Timer
 	public void start(final String URL) {
 		if (state == TimerState.PAUSE)
 			state = TimerState.START;
-		else {
+		else if (state == TimerState.STOP) {
 			state = TimerState.START;
+			
 			timer = new java.util.Timer(isDaemon);
 			timer.scheduleAtFixedRate(
 				new TimerTask() {
@@ -120,9 +121,12 @@ public class Timer
 	 * Pause the timer
 	 */
 	public void stop() {
-		state = TimerState.STOP;
+		if (state == TimerState.START || state == TimerState.PAUSE) {
+			state = TimerState.STOP;
+			
+			timer.cancel();
+			timer.purge();
+		}
 		
-		timer.cancel();
-		timer.purge();
 	}
 }

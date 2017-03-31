@@ -75,9 +75,11 @@ public class CommandLine implements TimerListener
 	public void onTimeExpired(VideoInfo videoInfo) {
 		// log
 		System.out.print(VideoInfoFormatter.toLog(videoInfo, true, log, log, log, log, log, log));
-		// save the info
+		// save the info (always in append mode)
 		try {
-			IO.append(VideoInfoFormatter.toCSV(videoInfo), file);
+			IO.open(file, true);
+			IO.write(VideoInfoFormatter.toCSV(videoInfo));
+			IO.close();
 			System.out.println("- SAVED -");
 		} catch (Exception ex) {
 			System.err.println("- UNABLE TO SAVE: " + ex.getMessage());

@@ -212,31 +212,36 @@ public class Gui implements TimerListener, UrlListener, ButtonsListener
 	}
 	
 	@Override
-	public boolean onSave() {
+	public void onSave() {
 		// a file has been selected
 		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			try {
-				// write the infos on the file
+				// if file already exists and the user chosed to not overwrite it, use appendMode
+				IO.open(
+					file,
+					file.exists() &&
+					JOptionPane.showConfirmDialog(mainFrame, "The file already exists: overwrite it?", PROGRAM_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION
+				);
 				for (VideoInfo videoInfo : videosInfo)
-					IO.append(VideoInfoFormatter.toCSV(videoInfo), file);
-				JOptionPane.showMessageDialog(mainFrame, "Info saved correctly", PROGRAM_NAME, JOptionPane.INFORMATION_MESSAGE);
-				return true;
+					IO.write(VideoInfoFormatter.toCSV(videoInfo));
+				IO.close();
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(mainFrame, "ERROR - unable to save: " + ex.getMessage(), PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
 			}
+			JOptionPane.showMessageDialog(mainFrame, "Info saved correctly", PROGRAM_NAME, JOptionPane.INFORMATION_MESSAGE);
 		}
-		return false;
 	}
 	
 	@Override
 	public void onExit() {
-		// there are info memorized and the user choose to save them
-		if (videosInfo.size() > 0 && JOptionPane.showConfirmDialog(mainFrame, "Save the info memorized so far?", PROGRAM_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-			if (!onSave())
-				return;
-		
-		timer.stop();
-		mainFrame.dispose();
+		// there are not info memorized or the user chosed to exit anyway
+		if (
+			videosInfo.size() == 0 ||
+			JOptionPane.showConfirmDialog(mainFrame, "There are unsaved info: exit anyway?", PROGRAM_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION
+		) {
+			timer.stop();
+			mainFrame.dispose();
+		}
 	}
 }

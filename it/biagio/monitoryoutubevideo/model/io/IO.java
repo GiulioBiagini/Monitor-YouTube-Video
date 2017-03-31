@@ -39,21 +39,39 @@ import java.io.IOException;
  */
 public class IO
 {
+	/** The object used to write on a file */
+	private static BufferedWriter bufferedWriter;
+	
+	
+	
 	/**
-	 * Write a string appending it at the end of a file (if the file already
-	 * exists)
+	 * Open the stream
+	 * 
+	 * @param file - the file in which to write data
+	 * @param appendMode - if the file exists true to append the string, false to overwrite
+	 * @throws IOException - if an input/output error occurs
+	 */
+	public static void open(File file, boolean appendMode) throws IOException {
+		bufferedWriter = new BufferedWriter(new FileWriter(file, appendMode));
+	}
+	
+	/**
+	 * Write the string
 	 * 
 	 * @param string - the string to write
-	 * @param file - the file in which to write the string
-	 * @throws IOException - if while writing an error occurs
+	 * @throws IOException - if an input/output error occurs
 	 */
-	public static void append(String string, File file) throws IOException {
-		if (file == null)
-			throw new IllegalArgumentException("Unable to write in a null file");
-		if (string != null) {
-			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+	public static void write(String string) throws IOException {
+		if (string != null && !string.isEmpty())
 			bufferedWriter.write(string);
-			bufferedWriter.close();
-		}
+	}
+	
+	/**
+	 * Close the stream
+	 * 
+	 * @throws IOException - if an input/output error occurs
+	 */
+	public static void close() throws IOException {
+		bufferedWriter.close();
 	}
 }

@@ -54,10 +54,8 @@ public interface ButtonsListener
 	
 	/**
 	 * Action triggered by the pressure on the save button
-	 * 
-	 * @return true if the file has been saved, false otherwise
 	 */
-	public boolean onSave();
+	public void onSave();
 	
 	/**
 	 * Action triggered by the pressure on the exit button
